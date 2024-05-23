@@ -1,6 +1,22 @@
 cmake_minimum_required(VERSION 3.16)
 
-option(GLM_ENABLE_CXX_20 ON)
+#GLM Options
+set(GLM_ENABLE_CXX_20 ON)
+
+# ImGui Parameters
+set(IMGUI_GLFW              ON)
+set(IMGUI_OPENGL3           ON)
+set(IMGUI_OPENGL3_LOADER    ON)
+
+# GLFW Parameters
+set(GLFW_BUILD_DOCS OFF)
+set(GLFW_INSTALL OFF)
+
+# ASSIMP Parameters
+set(ASSIMP_NO_EXPORT ON)
+set(BUILD_STATIC_LIB ON)
+set(BUILD_ASSIMP_TOOLS ON)
+set(USE_SYSTEM_ASSIMP ON)
 
 FetchContent_Declare(
         glm
@@ -39,35 +55,12 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
-        glad
-        GIT_REPOSITORY https://github.com/Dav1dde/glad
-        GIT_TAG v2.0.6
-)
-
-FetchContent_Declare(
         imgui
         GIT_REPOSITORY https://github.com/Sayama3/ImGui
         GIT_TAG docking #docking branch
 )
 
-# GLAD Parameters
-set(GLAD_PROFILE        "core" CACHE STRING "OpenGL profile" FORCE)
-set(GLAD_API            "gl=4.6" CACHE STRING "API type/version pairs, like \"gl=3.2,gles=\", no version means latest" FORCE)
-set(GLAD_GENERATOR      "c" CACHE STRING "Language to generate the binding for" FORCE)
-#set(GLAD_EXTENSIONS     "" CACHE STRING "Path to extensions file or comma separated list of extensions, if missing all extensions are included" FORCE)
-
-# ImGui Parameters
-set(IMGUI_GLFW              ON)
-set(IMGUI_OPENGL3           ON)
-set(IMGUI_OPENGL3_LOADER    ON)
-
-# ASSIMP Parameters
-set(ASSIMP_NO_EXPORT ON)
-set(BUILD_STATIC_LIB ON)
-set(BUILD_ASSIMP_TOOLS ON)
-set(USE_SYSTEM_ASSIMP ON)
-
-FetchContent_MakeAvailable(glm spdlog tinygltf assimp meshoptimizer glfw glad imgui)
+FetchContent_MakeAvailable(glm spdlog tinygltf assimp meshoptimizer glfw imgui)
 
 target_link_libraries(imgui PUBLIC glfw)
 
@@ -76,3 +69,5 @@ option(TRACY_ENABLE "" ON)
 option(TRACY_ON_DEMAND "" ON)
 
 add_subdirectory(tracy)
+
+add_subdirectory(glad)
