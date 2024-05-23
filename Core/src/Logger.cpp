@@ -2,7 +2,7 @@
 // Created by ianpo on 17/06/2023.
 //
 
-#include "Logger.hpp"
+#include "../include/Core/Logger.hpp"
 #include "spdlog/sinks/basic_file_sink.h"
 
 
