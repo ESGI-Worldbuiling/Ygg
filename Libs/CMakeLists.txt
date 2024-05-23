@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
 
-include(FetchContent)
-
 option(GLM_ENABLE_CXX_20 ON)
 
 FetchContent_Declare(
