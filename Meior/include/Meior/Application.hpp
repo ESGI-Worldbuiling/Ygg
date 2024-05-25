@@ -4,12 +4,30 @@
 
 #pragma once
 
-namespace Ygg {
-	namespace Meior {
+#include "Meior/Panel.hpp"
 
-		class Application {
+#include <vector>
+#include <memory>
 
-		};
+struct GLFWwindow;
 
-	} // Meior
-} // Ygg
+namespace Ygg::Meior {
+
+	class Application {
+	public:
+		Application();
+		~Application();
+		Application(const Application&) = delete;
+		Application& operator=(const Application&) = delete;
+
+		void Run();
+	private:
+		void UseDockSpace();
+	private:
+		GLFWwindow* m_Window = nullptr;
+		std::vector<PanelCreator> m_PanelCreators;
+		std::vector<std::unique_ptr<Panel>> m_Panels;
+	};
+
+} // Meior
+// Ygg

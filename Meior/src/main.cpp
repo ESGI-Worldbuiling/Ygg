@@ -13,9 +13,6 @@
 
 #include <glad/glad.h>
 
-#define GLFW_INCLUDE_NONE 1
-#define IMGUI_IMPL_OPENGL_LOADER_CUSTOM 1
-
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
@@ -30,10 +27,6 @@
 #pragma comment(lib, "legacy_stdio_definitions")
 #endif
 
-// This example can also compile and run with Emscripten! See 'Makefile.emscripten' for details.
-#ifdef __EMSCRIPTEN__
-#include "../libs/emscripten/emscripten_mainloop_stub.h"
-#endif
 
 static void glfw_error_callback(int error, const char* description)
 {
