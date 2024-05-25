@@ -4,11 +4,12 @@
 
 #pragma once
 
-#include <glad/glad.h>
+#ifndef IMGUI_IMPL_OPENGL_LOADER_CUSTOM
+#define IMGUI_IMPL_OPENGL_LOADER_CUSTOM 1
+#endif
 
 #include <imgui.h>
-#include <imgui_impl_glfw.h>
-#include <imgui_impl_opengl3.h>
+#include <cinttypes>
 
 struct GLFWwindow;
 
@@ -18,6 +19,8 @@ namespace Ygg::Meior {
 	public:
 		static bool Initalize(const char* glsl_version, const GLFWwindow*);
 		static bool Destroy();
+		static void BeginFrame();
+		static void EndFrame(uint32_t width, uint32_t height);
 	public:
 	private:
 	};

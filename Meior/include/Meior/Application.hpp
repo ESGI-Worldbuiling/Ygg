@@ -24,6 +24,7 @@ namespace Ygg::Meior {
 	private:
 		void UseDockSpace();
 	private:
+		uint32_t m_Width = 1280, m_Height = 720;
 		GLFWwindow* m_Window = nullptr;
 		std::vector<PanelCreator> m_PanelCreators;
 		std::vector<std::unique_ptr<Panel>> m_Panels;

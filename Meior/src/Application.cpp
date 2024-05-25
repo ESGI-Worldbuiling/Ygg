@@ -4,16 +4,20 @@
 
 #include <glad/glad.h>
 
+#ifndef GLFW_INCLUDE_NONE
+#define GLFW_INCLUDE_NONE 1
+#endif
+
+#include <GLFW/glfw3.h>
+
+#include "Core/Logger.hpp"
 #include "Meior/Application.hpp"
 #include "Meior/ImGuiLib.hpp"
 
 
-
 #include <cstdio>
 #include <stdexcept>
-#include <GLFW/glfw3.h>
 
-#include "Core/Logger.hpp"
 
 // [Win32] Our example includes a copy of glfw3.lib pre-compiled with VS2010 to maximize ease of testing and compatibility with old VS compilers.
 // To link with VS2010-era libraries, VS2015+ requires linking with legacy_stdio_definitions.lib, which we do using this pragma.
@@ -41,7 +45,7 @@ namespace Ygg::Meior {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 
 		// Create window with graphics context
-		m_Window = glfwCreateWindow(1280, 720, "Meior", nullptr, nullptr);
+		m_Window = glfwCreateWindow(m_Width, m_Height, "Meior", nullptr, nullptr);
 		if (m_Window == nullptr) {
 			throw std::runtime_error("GLFW could not Create a window.");
 			return;
@@ -87,10 +91,10 @@ namespace Ygg::Meior {
 			// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 			glfwPollEvents();
 
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 			// Start the Dear ImGui frame
-			ImGui_ImplOpenGL3_NewFrame();
-			ImGui_ImplGlfw_NewFrame();
-			ImGui::NewFrame();
+			ImGuiLib::BeginFrame();
 
 			// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
 			if(show_demo_window)
@@ -148,24 +152,8 @@ namespace Ygg::Meior {
 			}
 
 			// Rendering
-			ImGui::Render();
-			int display_w, display_h;
-			glfwGetFramebufferSize(m_Window, &display_w, &display_h);
-			glViewport(0, 0, display_w, display_h);
-			glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-			glClear(GL_COLOR_BUFFER_BIT);
-			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-			// Update and Render additional Platform Windows
-			// (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
-			//  For this specific demo app we could also call glfwMakeContextCurrent(window) directly)
-			if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-			{
-				GLFWwindow* backup_current_context = glfwGetCurrentContext();
-				ImGui::UpdatePlatformWindows();
-				ImGui::RenderPlatformWindowsDefault();
-				glfwMakeContextCurrent(backup_current_context);
-			}
+			ImGuiLib::EndFrame(m_Width, m_Height);
 
 			glfwSwapBuffers(m_Window);
 		}

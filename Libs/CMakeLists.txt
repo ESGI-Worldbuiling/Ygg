@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 #GLM Options
-set(GLM_ENABLE_CXX_20 ON)
+set(GLM_ENABLE_CXX_20       ON)
 
 # ImGui Parameters
 set(IMGUI_GLFW              ON)
@@ -9,14 +9,14 @@ set(IMGUI_OPENGL3           ON)
 set(IMGUI_OPENGL3_LOADER    ON)
 
 # GLFW Parameters
-set(GLFW_BUILD_DOCS OFF)
-set(GLFW_INSTALL OFF)
+set(GLFW_BUILD_DOCS         OFF)
+set(GLFW_INSTALL            OFF)
 
 # ASSIMP Parameters
-set(ASSIMP_NO_EXPORT ON)
-set(BUILD_STATIC_LIB ON)
-set(BUILD_ASSIMP_TOOLS ON)
-set(USE_SYSTEM_ASSIMP ON)
+set(ASSIMP_NO_EXPORT        ON)
+set(BUILD_STATIC_LIB        ON)
+set(BUILD_ASSIMP_TOOLS      ON)
+set(USE_SYSTEM_ASSIMP       ON)
 
 FetchContent_Declare(
         glm
