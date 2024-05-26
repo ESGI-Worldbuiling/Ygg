@@ -15,7 +15,7 @@
 
 
 namespace Ygg::Meior {
-	bool ImGuiLib::Initalize(const char* glsl_version, const GLFWwindow* window) {	// Setup Dear ImGui context
+	bool ImGuiLib::Initalize(const char* glsl_version, const Window& window) {	// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -39,7 +39,7 @@ namespace Ygg::Meior {
 		}
 
 		// Setup Platform/Renderer backends
-		ImGui_ImplGlfw_InitForOpenGL(const_cast<GLFWwindow*>(window), true);
+		ImGui_ImplGlfw_InitForOpenGL(const_cast<GLFWwindow*>(window.GetNativeWindow<GLFWwindow>()), true);
 		ImGui_ImplOpenGL3_Init(glsl_version);
 		return true;
 	}

@@ -8,6 +8,7 @@
 #define IMGUI_IMPL_OPENGL_LOADER_CUSTOM 1
 #endif
 
+#include "Meior/Renderer/Window.hpp"
 #include <imgui.h>
 #include <cinttypes>
 #include <functional>
@@ -18,7 +19,7 @@ namespace Ygg::Meior {
 
 	class ImGuiLib {
 	public:
-		static bool Initalize(const char* glsl_version, const GLFWwindow*);
+		static bool Initalize(const char* glsl_version, const Window&);
 		static bool Destroy();
 		static void BeginFrame();
 		static void EndFrame(uint32_t width, uint32_t height);

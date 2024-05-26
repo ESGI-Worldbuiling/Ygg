@@ -5,17 +5,18 @@
 #pragma once
 
 #include "Meior/Panel.hpp"
+#include "Meior/Renderer/Renderer.hpp"
+#include "Meior/Renderer/Window.hpp"
 
 #include <vector>
 #include <memory>
 
-struct GLFWwindow;
 
 namespace Ygg::Meior {
 
 	class Application {
 	public:
-		Application();
+		Application(const WindowProps&);
 		~Application();
 		Application(const Application&) = delete;
 		Application& operator=(const Application&) = delete;
@@ -24,10 +25,9 @@ namespace Ygg::Meior {
 	private:
 		void DrawMenuBar();
 	private:
-		uint32_t m_Width = 1280, m_Height = 720;
-		GLFWwindow* m_Window = nullptr;
-		std::vector<PanelCreator> m_PanelCreators;
-		std::vector<std::unique_ptr<Panel>> m_Panels;
+		std::unique_ptr<Window> m_Window = nullptr;
+		std::vector<PanelCreator> m_PanelCreators {};
+		std::vector<std::unique_ptr<Panel>> m_Panels {};
 	};
 
 } // Meior

@@ -2,13 +2,6 @@
 // Created by Sayama on 23/05/2024.
 //
 
-#include <glad/glad.h>
-
-#ifndef GLFW_INCLUDE_NONE
-#define GLFW_INCLUDE_NONE 1
-#endif
-
-#include <GLFW/glfw3.h>
 
 #include "Core/Logger.hpp"
 #include "Core/Macro.hpp"
@@ -16,8 +9,6 @@
 #include "Meior/ImGuiLib.hpp"
 
 
-#include <cstdio>
-#include <stdexcept>
 
 
 // [Win32] Our example includes a copy of glfw3.lib pre-compiled with VS2010 to maximize ease of testing and compatibility with old VS compilers.
@@ -27,51 +18,16 @@
 	#pragma comment(lib, "legacy_stdio_definitions")
 #endif
 
-static void glfw_error_callback(int error, const char* description)
-{
-	YGG_ERROR("GLFW Error {}: {}", error, description);
-}
+
 
 namespace Ygg::Meior {
-	Application::Application() {
-		glfwSetErrorCallback(glfw_error_callback);
-		if (!glfwInit()) {
-			throw std::runtime_error("GLFW could not be initialized.");
-			return;
-		}
-
-
-		const char* glsl_version = "#version 460";
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-
-		// Create window with graphics context
-		m_Window = glfwCreateWindow(m_Width, m_Height, "Meior", nullptr, nullptr);
-		if (m_Window == nullptr) {
-			throw std::runtime_error("GLFW could not Create a window.");
-			return;
-		}
-
-		glfwMakeContextCurrent(m_Window);
-
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-
-		printf("glad loading status: %d\n", status);
-		printf("OpenGL Info:\n");
-		printf("  Vendor: %s\n", (const char*)glGetString(GL_VENDOR));
-		printf("  Renderer: %s\n", (const char*)glGetString(GL_RENDERER));
-		printf("  Version: %s\n", (const char*)glGetString(GL_VERSION));
-
-		glfwSwapInterval(1); // Enable vsync
-
-		ImGuiLib::Initalize(glsl_version, m_Window);
+	Application::Application(const WindowProps& props) : m_Window(std::make_unique<Window>(props))
+	{
+		ImGuiLib::Initalize("#version 460", *m_Window);
 	}
 
 	Application::~Application() {
-
 		ImGuiLib::Destroy();
-		glfwDestroyWindow(m_Window);
-		glfwTerminate();
 	}
 
 	void Application::Run()
@@ -83,16 +39,11 @@ namespace Ygg::Meior {
 
 		ImGuiIO& io = ImGui::GetIO();
 
-		while (!glfwWindowShouldClose(m_Window))
+		while (!m_Window->ShouldClose())
 		{
-			// Poll and handle events (inputs, window resize, etc.)
-			// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
-			// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.
-			// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
-			// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
-			glfwPollEvents();
+			m_Window->PollEvents();
 
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			Renderer::Clear();
 
 			// Start the Dear ImGui frame
 			ImGuiLib::BeginFrame();
@@ -155,10 +106,8 @@ namespace Ygg::Meior {
 			}
 
 			// Rendering
-
-			ImGuiLib::EndFrame(m_Width, m_Height);
-
-			glfwSwapBuffers(m_Window);
+			ImGuiLib::EndFrame(m_Window->GetWindowProps().Width, m_Window->GetWindowProps().Height);
+			m_Window->SwapBuffers();
 		}
 	}
 
@@ -173,9 +122,9 @@ namespace Ygg::Meior {
 				// which we can't undo at the moment without finer window depth/z control.
 				if(ImGui::MenuItem("Exit"))
 				{
-					glfwSetWindowShouldClose(m_Window, true);
+					m_Window->Close();
 				}
-				//			ImGui::MenuItem("Padding", NULL, &opt_padding);
+
 				ImGui::Separator();
 
 				ImGui::EndMenu();

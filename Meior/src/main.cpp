@@ -10,7 +10,7 @@ int main(int, char**)
 {
 	Ygg::Log::Init();
 
-	auto* application = new Ygg::Meior::Application();
+	auto* application = new Ygg::Meior::Application(Ygg::Meior::WindowProps());
 	application->Run();
 	delete application;
 

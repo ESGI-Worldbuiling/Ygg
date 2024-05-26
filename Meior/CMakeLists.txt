@@ -10,8 +10,10 @@ set(MEIOR_SRC
 		src/Panel.cpp
 		include/Meior/Panel.hpp
 		include/Meior/Macro.hpp
-		src/Renderer.cpp
-		include/Meior/Renderer.hpp
+		src/Renderer/Renderer.cpp
+		include/Meior/Renderer/Renderer.hpp
+		src/Renderer/Window.cpp
+		include/Meior/Renderer/Window.hpp
 )
 
 add_executable(Meior ${MEIOR_SRC})
