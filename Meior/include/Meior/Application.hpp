@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Meior/Panel.hpp"
+#include "Meior/Panels/Panel.hpp"
 #include "Meior/Renderer/Renderer.hpp"
 #include "Meior/Renderer/Window.hpp"
 

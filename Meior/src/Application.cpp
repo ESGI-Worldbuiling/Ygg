@@ -7,6 +7,7 @@
 #include "Core/Macro.hpp"
 #include "Meior/Application.hpp"
 #include "Meior/ImGuiLib.hpp"
+#include "Meior/Panels/TerrainPanel.hpp"
 
 
 
@@ -24,6 +25,7 @@ namespace Ygg::Meior {
 	Application::Application(const WindowProps& props) : m_Window(std::make_unique<Window>(props))
 	{
 		ImGuiLib::Initalize("#version 460", *m_Window);
+		m_PanelCreators.push_back(TerrainPanel::GetPanelCreator());
 	}
 
 	Application::~Application() {
@@ -130,7 +132,7 @@ namespace Ygg::Meior {
 				ImGui::EndMenu();
 			}
 
-			if (ImGui::BeginMenu("Options"))
+			if (ImGui::BeginMenu("Panels"))
 			{
 				// TODO: allow to create all the panel.
 				for (const auto& panelCreator : m_PanelCreators) {

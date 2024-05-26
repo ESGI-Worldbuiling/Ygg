@@ -7,13 +7,15 @@ set(MEIOR_SRC
         src/Application.cpp
 		src/ImGuiLib.cpp
 		include/Meior/ImGuiLib.hpp
-		src/Panel.cpp
-		include/Meior/Panel.hpp
+		src/Panels/Panel.cpp
+		include/Meior/Panels/Panel.hpp
 		include/Meior/Macro.hpp
 		src/Renderer/Renderer.cpp
 		include/Meior/Renderer/Renderer.hpp
 		src/Renderer/Window.cpp
 		include/Meior/Renderer/Window.hpp
+		src/Panels/TerrainPanel.cpp
+		include/Meior/Panels/TerrainPanel.hpp
 )
 
 add_executable(Meior ${MEIOR_SRC})

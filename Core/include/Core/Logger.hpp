@@ -1,12 +1,13 @@
 
 #pragma once
 
+#include "Macro.hpp"
+
 #ifndef SPDLOG_ACTIVE_LEVEL
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
 #endif
 
 #include "spdlog/spdlog.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
 
 namespace Ygg {
 
@@ -22,7 +23,7 @@ namespace Ygg {
     };
 }
 
-#ifdef YGG_LOG
+#ifndef YGG_DONT_LOG
 
 #define YGG_TRACE(...)       ::Ygg::Log::GetLogger()->log(spdlog::source_loc{__FILE__, __LINE__, YGG_FUNC}, spdlog::level::trace, __VA_ARGS__)
 #define YGG_INFO(...)        ::Ygg::Log::GetLogger()->log(spdlog::source_loc{__FILE__, __LINE__, YGG_FUNC}, spdlog::level::info, __VA_ARGS__)

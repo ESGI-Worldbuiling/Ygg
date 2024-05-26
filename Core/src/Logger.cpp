@@ -2,7 +2,8 @@
 // Created by ianpo on 17/06/2023.
 //
 
-#include "../include/Core/Logger.hpp"
+#include "Core/Logger.hpp"
+#include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/sinks/basic_file_sink.h"
 
 
