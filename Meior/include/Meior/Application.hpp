@@ -22,7 +22,7 @@ namespace Ygg::Meior {
 
 		void Run();
 	private:
-		void UseDockSpace();
+		void DrawMenuBar();
 	private:
 		uint32_t m_Width = 1280, m_Height = 720;
 		GLFWwindow* m_Window = nullptr;

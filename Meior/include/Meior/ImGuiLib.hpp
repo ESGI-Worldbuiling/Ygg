@@ -10,6 +10,7 @@
 
 #include <imgui.h>
 #include <cinttypes>
+#include <functional>
 
 struct GLFWwindow;
 
@@ -21,6 +22,7 @@ namespace Ygg::Meior {
 		static bool Destroy();
 		static void BeginFrame();
 		static void EndFrame(uint32_t width, uint32_t height);
+		static void UseDockSpace(std::function<void(void)> menuBarFun);
 	public:
 	private:
 	};

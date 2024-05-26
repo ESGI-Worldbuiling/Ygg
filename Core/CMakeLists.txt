@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.16)
 set(CORE_SRC
         include/Core/Logger.hpp
         src/Logger.cpp
+		include/Core/Macro.hpp
 )
 
 add_library(Core STATIC ${CORE_SRC})
