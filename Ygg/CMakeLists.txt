@@ -4,7 +4,7 @@ set(YGG_TARGET_NAME Ygg)
 
 set(YGG_TARGET_SOURCES
         src/TerrainGenerator.cpp
-        src/TreeGenerator.cpp
+        src/Tree.cpp
         src/LSys.cpp
 )
 
