@@ -1,0 +1,9 @@
+name: Build and test
+run-name: Push by ${{ github.actor }}, building and running tests 🔨
+on: [push]
+jobs:
+  Building:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Building the project"
+      - run: cmake -S . -B build
