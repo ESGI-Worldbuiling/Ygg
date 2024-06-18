@@ -8,16 +8,17 @@ project(Ygg VERSION 0.0.1 DESCRIPTION "A library for generative worldbuilding")
 
 include(FetchContent)
 
-option(YGG_ENABLE_TESTS "Enable tests for the Ygg library" ON)
-
-#TODO: Add option to only build certain projects.
+option(YGG_BUILD_TESTS "Build tests for the Ygg library" ON)
+option(YGG_BUILD_CLIENT "Build the Meior client" ON)
 
 add_subdirectory(Libs)
 add_subdirectory(Core)
 add_subdirectory(Ygg)
-add_subdirectory(Meior)
 
+if (YGG_BUILD_CLIENT)
+    add_subdirectory(Meior)
+endif()
 
-if (YGG_ENABLE_TESTS)
+if (YGG_BUILD_TESTS)
     add_subdirectory(Test)
 endif ()
