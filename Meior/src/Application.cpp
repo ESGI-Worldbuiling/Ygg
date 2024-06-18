@@ -8,6 +8,7 @@
 #include "Meior/Application.hpp"
 #include "Meior/ImGuiLib.hpp"
 #include "Meior/Panels/TerrainPanel.hpp"
+#include "Meior/Panels/TreePanel.hpp"
 
 
 
@@ -26,6 +27,7 @@ namespace Ygg::Meior {
 	{
 		ImGuiLib::Initalize("#version 460", *m_Window);
 		m_PanelCreators.push_back(TerrainPanel::GetPanelCreator());
+		m_PanelCreators.push_back(TreePanel::GetPanelCreator());
 	}
 
 	Application::~Application() {

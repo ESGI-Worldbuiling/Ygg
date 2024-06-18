@@ -11,12 +11,9 @@ namespace Ygg::Meior {
 	TerrainPanel::TerrainPanel()
 	{
 		m_Name = "Terrain Panel";
-
 	}
 
-	TerrainPanel::~TerrainPanel() {
-
-	}
+	TerrainPanel::~TerrainPanel() = default;
 
 	bool TerrainPanel::Update() {
 		bool changed = false;
@@ -34,9 +31,5 @@ namespace Ygg::Meior {
 		}
 
 		return changed;
-	}
-
-	std::unique_ptr<Panel> TerrainPanel::CreatePanel() {
-		return std::make_unique<TerrainPanel>();
 	}
 } // namespace Ygg::Meior

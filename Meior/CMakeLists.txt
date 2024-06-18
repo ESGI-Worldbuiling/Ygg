@@ -16,6 +16,8 @@ set(MEIOR_SRC
 		include/Meior/Renderer/Window.hpp
 		src/Panels/TerrainPanel.cpp
 		include/Meior/Panels/TerrainPanel.hpp
+		src/Panels/TreePanel.cpp
+		include/Meior/Panels/TreePanel.hpp
 )
 
 add_executable(Meior ${MEIOR_SRC})
