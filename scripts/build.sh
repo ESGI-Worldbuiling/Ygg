@@ -9,8 +9,8 @@ else
     mkdir build
 fi
 
-echo -e "\e[33mBuilding CMake project\e[0m"
+echo "Building CMake project"
 
 cmake -B ./build -S ./ -DYGG_BUILD_CLIENT=OFF -DYGG_BUILD_TESTS=ON
 
-echo -e "\e[33mFinished with succes building CMake project\e[0m"
+echo "Finished with succes building CMake project"
