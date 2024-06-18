@@ -3,6 +3,7 @@
 #include <cmath>
 #include "Core/Logger.hpp"
 #include "glm/glm.hpp"
+#include "Core/Asset.hpp"
 
 namespace Ygg {
 	struct Vertex {
@@ -12,7 +13,7 @@ namespace Ygg {
 		glm::vec2 uv;
 	};
 
-	class Mesh {
+	class Mesh : public Asset {
 	public:
 		Mesh();
 		Mesh(const std::vector<Vertex>& points);

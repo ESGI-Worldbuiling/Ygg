@@ -18,6 +18,12 @@ set(MEIOR_SRC
 		include/Meior/Panels/TerrainPanel.hpp
 		src/Panels/TreePanel.cpp
 		include/Meior/Panels/TreePanel.hpp
+		src/Renderer/Buffer.cpp
+		include/Meior/Renderer/Buffer.hpp
+		src/Renderer/Shader.cpp
+		include/Meior/Renderer/Shader.hpp
+		src/Renderer/VertexArray.cpp
+		include/Meior/Renderer/VertexArray.hpp
 )
 
 add_executable(Meior ${MEIOR_SRC})

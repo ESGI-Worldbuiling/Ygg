@@ -5,6 +5,14 @@ set(CORE_SRC
         src/Logger.cpp
 		include/Core/Macro.hpp
 		src/Mesh.cpp
+		src/Scene.cpp
+		include/Render/Scene.hpp
+		src/UUID.cpp
+		include/Core/UUID.hpp
+		include/Core/SmartPointers.hpp
+		include/Core/Asset.hpp
+		include/Core/Math.hpp
+		include/Core/Profiler.hpp
 )
 
 add_library(Core STATIC ${CORE_SRC})
