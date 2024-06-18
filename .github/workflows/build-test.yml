@@ -1,0 +1,15 @@
+name: Build and test
+run-name: Push by ${{ github.actor }}, building and testing on branch ${{ github.ref_name }}
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Building the project"
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Using CMake Action
+        uses: threeal/cmake-action@v1.3.0
+      - run: chmod +x scripts/build.sh
+      - run: ./scripts/build.sh
+      - run: echo "This job status is ${{ job.status }}"
