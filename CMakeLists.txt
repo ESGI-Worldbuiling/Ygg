@@ -16,9 +16,11 @@ add_subdirectory(Core)
 add_subdirectory(Ygg)
 
 if (YGG_BUILD_CLIENT)
+    message("-- Ygg: Building the client app")
     add_subdirectory(Meior)
 endif()
 
 if (YGG_BUILD_TESTS)
+    message("-- Ygg: Building tests")
     add_subdirectory(Test)
 endif ()

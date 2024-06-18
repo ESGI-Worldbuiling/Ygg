@@ -13,4 +13,6 @@ echo "Building CMake project"
 
 cmake -B ./build -S ./ -DYGG_BUILD_CLIENT=OFF -DYGG_BUILD_TESTS=ON
 
-echo "Finished with succes building CMake project"
+cd build && make
+
+echo "Finished with success building CMake project"
