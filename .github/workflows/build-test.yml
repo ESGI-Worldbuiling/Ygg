@@ -7,7 +7,7 @@ jobs:
     steps:
       - run: echo "Installing required dependencies"
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y libminizip-dev zziplib-bin libzzip-dev libwayland-dev wayland-protocols libxkbcommon-dev libxrandr-dev
+        run: sudo apt-get update && sudo apt-get install -y libminizip-dev zziplib-bin libzzip-dev libwayland-dev wayland-protocols libxkbcommon-dev libxrandr-dev libxinerama-dev
       - run: echo "Building the project"
       - name: Check out repository code
         uses: actions/checkout@v4
