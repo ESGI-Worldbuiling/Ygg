@@ -6,7 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Installing required dependencies"
-      - run: sudo apt-get update && sudo apt-get install -y libminizip-dev zziplib-bin libzzip-dev libwayland-dev wayland-protocols
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y libminizip-dev zziplib-bin libzzip-dev libwayland-dev \
+          wayland-protocols libxkbcommon-dev
       - run: echo "Building the project"
       - name: Check out repository code
         uses: actions/checkout@v4
