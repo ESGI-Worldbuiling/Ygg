@@ -1,18 +1,93 @@
-name: Build and test
-run-name: Push by ${{ github.actor }}, building and testing on branch ${{ github.ref_name }}
-on: [push]
+name: Build and test Ygg
+run-name: Update by ${{ github.actor }}
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        compiler: [llvm, gcc]
+        # Removed assimp
+        ## Due to compile error of assimp, I exclude the ubuntu gcc compiler. See if the bug is fixed later on or if I change the library or something else.
+        #          - os: ubuntu-latest
+        #            compiler: gcc
+        include:
+          - os: windows-latest
+            compiler: msvc
+      #          - os: macos-latest
+      #            compiler: llvm-14.0.6
+      fail-fast: false
+
+    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
+    # You can convert this to a matrix build if you need cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: ${{ matrix.os }}
+
     steps:
-      - run: echo "Installing required dependencies"
-      - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y libminizip-dev zziplib-bin libzzip-dev libwayland-dev wayland-protocols libxkbcommon-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
-      - run: echo "Building the project"
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - name: Using CMake Action
-        uses: threeal/cmake-action@v1.3.0
-      - run: chmod +x scripts/build.sh
-      - run: ./scripts/build.sh
-      - run: echo "This job status is ${{ job.status }}"
+
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/vcpkg
+            ./build/vcpkg_installed
+            ${{ env.HOME }}/.cache/vcpkg/archives
+            ${{ env.XDG_CACHE_HOME }}/vcpkg/archives
+            ${{ env.LOCALAPPDATA }}\vcpkg\archives
+            ${{ env.APPDATA }}\vcpkg\archives
+          key: ${{ runner.os }}-${{ matrix.compiler }}-${{ env.BUILD_TYPE }}-${{ hashFiles('**/CMakeLists.txt') }}-${{ hashFiles('./vcpkg.json')}}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.BUILD_TYPE }}-
+        # Setup ubuntu
+      - name: Update apt
+        if: ${{ contains(matrix.os, 'ubuntu') }}
+        run: sudo apt-get update
+
+      - name: Install X11 dependencies on Unix-like system
+        if: ${{ contains(matrix.os, 'ubuntu') }}
+        run: sudo apt-get install -y libwayland-dev libxkbcommon-dev xorg-dev
+
+      - name: Install OpenGL on Ubuntu
+        if: ${{ contains(matrix.os, 'ubuntu') }}
+        run: sudo apt-get install -y libgl1-mesa-glx freeglut3-dev
+
+      - name: Setup Cpp
+        uses: aminya/setup-cpp@v1
+        with:
+          compiler: ${{ matrix.compiler }}
+          vcvarsall: ${{ contains(matrix.os, 'windows') }}
+          cmake: true
+          ninja: true
+          vcpkg: false
+          cppcheck: false
+          clangtidy: false # instead of `true`, which chooses the default version, you can pass a specific version.
+
+      - name: Configure CMake
+        # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+        # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DYGG_BUILD_CLIENT=ON -DYGG_BUILD_TESTS=ON
+
+      - name: Build
+        # Build your program with the given configuration
+        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+      - name: Test
+        working-directory: ${{github.workspace}}/build
+        # Execute tests defined by the CMake configuration.
+        # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+        run: ctest -C ${{env.BUILD_TYPE}}
