@@ -4,7 +4,7 @@
 namespace Ygg {
     class Tree {
     public:
-        tinygltf::Model modelFromEdgeTree(const std::vector<float>&);
+        //tinygltf::Model modelFromEdgeTree(const std::vector<float>&);
 
 
     private:

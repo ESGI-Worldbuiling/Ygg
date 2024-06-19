@@ -14,6 +14,7 @@ enable_testing()
 
 add_executable(${YGG_TEST_EXE_NAME}
         lsys_test.cc
+		TerrainGenerator.cc
 )
 
 target_link_libraries(${YGG_TEST_EXE_NAME}
