@@ -4,7 +4,7 @@
 #include <tiny_gltf.h>
 #include <vector>
 #include <string>
-
+#include <random>
 namespace Ygg {
 
 	class TerrainGenerator {
