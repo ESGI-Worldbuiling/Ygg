@@ -17,5 +17,12 @@ namespace Ygg::Meior {
 	void Renderer::Clear() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
+	void Renderer::RenderScene(const Scene &scene, Framebuffer* fb, IProjection *projMatrix, IView *viewMatrix) {
+		fb->Bind();
+
+
+
+		fb->Unbind();
+	}
 
 } // namespace Ygg::Meior

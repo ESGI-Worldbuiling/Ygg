@@ -30,6 +30,9 @@ set(MEIOR_SRC
 		include/Meior/Renderer/VertexArray.hpp
 		src/Renderer/Framebuffer.cpp
 		include/Meior/Renderer/Framebuffer.hpp
+		include/Meior/Renderer/ShadersCpp/DefaultShaders.hpp
+		src/Renderer/UniformBuffer.cpp
+		include/Meior/Renderer/UniformBuffer.hpp
 )
 
 add_executable(Meior ${MEIOR_SRC})

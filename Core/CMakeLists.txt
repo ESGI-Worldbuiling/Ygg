@@ -13,6 +13,10 @@ set(CORE_SRC
 		include/Core/Asset.hpp
 		include/Core/Math.hpp
 		include/Core/Profiler.hpp
+		include/Core/Core.hpp
+		src/Camera.cpp
+		include/Render/Camera.hpp
+		src/Math.cpp
 )
 
 add_library(Core STATIC ${CORE_SRC})
