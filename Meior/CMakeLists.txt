@@ -28,6 +28,8 @@ set(MEIOR_SRC
 		include/Meior/Renderer/Texture.hpp
 		src/Renderer/VertexArray.cpp
 		include/Meior/Renderer/VertexArray.hpp
+		src/Renderer/Framebuffer.cpp
+		include/Meior/Renderer/Framebuffer.hpp
 )
 
 add_executable(Meior ${MEIOR_SRC})
