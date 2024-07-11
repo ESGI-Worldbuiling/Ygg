@@ -6,6 +6,12 @@
 
 #include <vector>
 #include <array>
+#include <string>
+#include <memory>
+#include <functional>
+#include <filesystem>
+#include <regex>
+
 #include <cstdint>
 #include <cstring>
 

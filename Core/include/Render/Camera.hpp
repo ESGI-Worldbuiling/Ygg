@@ -23,8 +23,8 @@ namespace Ygg {
 	class Camera : public IProjection, public IView {
 	public:
 		Camera() = default;
-		Camera(uint32_t width, uint32_t height, float radianFov, float nearClip, float farClip);
-		Camera(float aspectRatio, float radianFov, float nearClip, float farClip);
+		Camera(uint32_t width, uint32_t height, float radianFov = glm::radians(60.0f), float nearClip = 0.001f, float farClip = 1000.0f);
+		Camera(float aspectRatio, float radianFov = glm::radians(60.0f), float nearClip = 0.001f, float farClip = 1000.0f);
 		~Camera() = default;
 
 	public:
