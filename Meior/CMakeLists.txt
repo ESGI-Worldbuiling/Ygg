@@ -33,6 +33,9 @@ set(MEIOR_SRC
 		include/Meior/Renderer/ShadersCpp/DefaultShaders.hpp
 		src/Renderer/UniformBuffer.cpp
 		include/Meior/Renderer/UniformBuffer.hpp
+		include/Meior/Renderer/Light.hpp
+		src/Renderer/GraphicsContext.cpp
+		include/Meior/Renderer/GraphicsContext.hpp
 )
 
 add_executable(Meior ${MEIOR_SRC})

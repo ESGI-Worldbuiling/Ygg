@@ -23,14 +23,16 @@
 
 
 namespace Ygg::Meior {
-	Application::Application(const WindowProps& props) : m_Window(std::make_unique<Window>(props))
+	Application::Application(const WindowProps& props) : m_Window(CreateScope<Window>(props))
 	{
+		Renderer::Initialize();
 		ImGuiLib::Initalize("#version 460", *m_Window);
 		m_PanelCreators.push_back(TerrainPanel::GetPanelCreator());
 		m_PanelCreators.push_back(TreePanel::GetPanelCreator());
 	}
 
 	Application::~Application() {
+		Renderer::Destroy();
 		ImGuiLib::Destroy();
 	}
 

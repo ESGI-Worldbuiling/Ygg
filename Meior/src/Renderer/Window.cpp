@@ -45,15 +45,8 @@ namespace Ygg::Meior {
 			return;
 		}
 
-		glfwMakeContextCurrent(GetNativeWindow<GLFWwindow>());
-
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-
-		printf("glad loading status: %d\n", status);
-		printf("OpenGL Info:\n");
-		printf("  Vendor: %s\n", (const char*)glGetString(GL_VENDOR));
-		printf("  Renderer: %s\n", (const char*)glGetString(GL_RENDERER));
-		printf("  Version: %s\n", (const char*)glGetString(GL_VERSION));
+		m_Context = CreateScope<GraphicsContext>(this);
+		m_Context->Init();
 
 		glfwSwapInterval(1); // Enable vsync
 	}
@@ -61,6 +54,7 @@ namespace Ygg::Meior {
 	Window::~Window() {
 		YGG_TRACE("Destroying window {}", m_WindowProps.Title);
 		if(m_Window) {
+			m_Context.reset();
 			glfwDestroyWindow(GetNativeWindow<GLFWwindow>());
 			glfwTerminate();
 			m_Window = nullptr;
@@ -68,7 +62,7 @@ namespace Ygg::Meior {
 	}
 
 	void Window::SwapBuffers() {
-		glfwSwapBuffers(GetNativeWindow<GLFWwindow>());
+		m_Context->SwapBuffers();
 	}
 
 	void Window::PollEvents() {

@@ -4,8 +4,9 @@
 
 #pragma once
 
-#include <string>
+#include "GraphicsContext.hpp"
 #include <cinttypes>
+#include <string>
 
 namespace Ygg::Meior {
 
@@ -44,6 +45,7 @@ namespace Ygg::Meior {
 	private:
 		void* m_Window = nullptr;
 		WindowProps m_WindowProps;
+		Scope<GraphicsContext> m_Context;
 	};
 
 } // namespace Ygg::Meior

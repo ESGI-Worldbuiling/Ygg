@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "Core/Core.hpp"
 #include "Meior/Panels/Panel.hpp"
 #include "Meior/Renderer/Renderer.hpp"
 #include "Meior/Renderer/Window.hpp"
@@ -25,9 +26,9 @@ namespace Ygg::Meior {
 	private:
 		void DrawMenuBar();
 	private:
-		std::unique_ptr<Window> m_Window = nullptr;
+		Scope<Window> m_Window = nullptr;
 		std::vector<PanelCreator> m_PanelCreators {};
-		std::vector<std::unique_ptr<Panel>> m_Panels {};
+		std::vector<Scope<Panel>> m_Panels {};
 	};
 
 } // Meior

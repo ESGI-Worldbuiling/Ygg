@@ -58,7 +58,6 @@ layout(std140, binding = 1) uniform Model
 {
     mat4 u_ModelMatrix;
     mat4 u_NormalMatrix;
-    int u_EntityId;
 };
 
 layout (location = 0) in vec3 v_Position;
