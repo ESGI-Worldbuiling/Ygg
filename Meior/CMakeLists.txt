@@ -2,26 +2,30 @@ cmake_minimum_required(VERSION 3.16)
 
 
 set(MEIOR_SRC
-        src/main.cpp
-        include/Meior/Application.hpp
-        src/Application.cpp
+		src/main.cpp
+		src/Application.cpp
+		include/Meior/Application.hpp
 		src/ImGuiLib.cpp
 		include/Meior/ImGuiLib.hpp
 		src/Panels/Panel.cpp
 		include/Meior/Panels/Panel.hpp
 		include/Meior/Macro.hpp
-		src/Renderer/Renderer.cpp
-		include/Meior/Renderer/Renderer.hpp
 		src/Renderer/Window.cpp
 		include/Meior/Renderer/Window.hpp
 		src/Panels/TerrainPanel.cpp
 		include/Meior/Panels/TerrainPanel.hpp
 		src/Panels/TreePanel.cpp
 		include/Meior/Panels/TreePanel.hpp
+		src/Renderer/Renderer.cpp
+		include/Meior/Renderer/Renderer.hpp
 		src/Renderer/Buffer.cpp
 		include/Meior/Renderer/Buffer.hpp
+		src/Renderer/Mesh.cpp
+		include/Meior/Renderer/Mesh.hpp
 		src/Renderer/Shader.cpp
 		include/Meior/Renderer/Shader.hpp
+		src/Renderer/Texture.cpp
+		include/Meior/Renderer/Texture.hpp
 		src/Renderer/VertexArray.cpp
 		include/Meior/Renderer/VertexArray.hpp
 )

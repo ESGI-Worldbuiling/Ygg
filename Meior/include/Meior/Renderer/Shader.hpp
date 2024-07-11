@@ -15,6 +15,8 @@
 
 namespace Ygg::Meior {
 
+
+
    class Shader {
    public:
       enum Type : uint8_t
@@ -45,6 +47,7 @@ namespace Ygg::Meior {
       void SetUniformMat3(const std::string& name, const Mat3& matrix);
       void SetUniformVec4(const std::string& name, const Vec4& matrix);
       void SetUniformVec3(const std::string& name, const Vec3& matrix);
+	  void SetUniformTexture(const std::string& name, uint32_t slot);
    private:
       bool CompileShaders();
       bool LinkShaders();

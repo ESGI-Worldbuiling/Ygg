@@ -9,6 +9,7 @@
 #include <glm/glm.hpp>
 #include "Core/SmartPointers.hpp"
 #include "Core/Buffer.hpp"
+
 namespace Ygg::Meior {
 
    enum class BufferDataType : uint16_t
