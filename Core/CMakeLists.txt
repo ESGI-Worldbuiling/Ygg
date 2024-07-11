@@ -10,6 +10,7 @@ set(CORE_SRC
 add_library(Core STATIC ${CORE_SRC})
 
 target_include_directories(Core PUBLIC include)
-add_compile_definitions(Core PUBLIC YGG_LOG)
+add_compile_definitions(Core PUBLIC YGG_LOG GLM_ENABLE_EXPERIMENTAL)
 
 target_link_libraries(Core PUBLIC glm spdlog::spdlog_header_only tracy tinygltf)
+
