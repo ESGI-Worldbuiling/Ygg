@@ -1,5 +1,7 @@
 #include "Render/Mesh.hpp"
 
+#include <algorithm>
+
 namespace Ygg {
 	Mesh::Mesh() {}
 
@@ -17,10 +19,15 @@ namespace Ygg {
 	Mesh::~Mesh() {}
 
 	void Mesh::AddTriangle(const std::array<Vertex, 3> &points) {
-		m_indices.push_back(m_vertices.size() + 0);
-		m_indices.push_back(m_vertices.size() + 1);
-		m_indices.push_back(m_vertices.size() + 2);
-		m_vertices.insert(m_vertices.end(),points.begin(), points.end());
+		m_indices.push_back(AddVertex(points[0]));
+		m_indices.push_back(AddVertex(points[1]));
+		m_indices.push_back(AddVertex(points[2]));
+	}
+	void Mesh::AddTriangles(const std::vector<Vertex> &points, std::vector<uint32_t> indices) {
+		uint64_t offset = m_vertices.size();
+		std::for_each(indices.begin(), indices.end(), [offset](uint32_t& indice) {indice += offset;});
+		m_vertices.insert(m_vertices.end(), points.begin(), points.end());
+		m_indices.insert(m_indices.begin(), indices.begin(), indices.end());
 	}
 
 	void Mesh::AddSurface(const std::vector<Vertex> &points) {
@@ -35,5 +42,15 @@ namespace Ygg {
 			lastPoint = i;
 		}
 		m_vertices.insert(m_vertices.end(), points.begin(), points.end());
+	}
+
+	uint64_t Mesh::AddVertex(const Vertex &vertex) {
+		auto it = std::find(m_vertices.begin(), m_vertices.end(), vertex);
+		if(it == m_vertices.end()) {
+			m_vertices.push_back(vertex);
+			return m_vertices.size() - 1;
+		} else {
+			return std::distance(m_vertices.begin(), it);
+		}
 	}
 }

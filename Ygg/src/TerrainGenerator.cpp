@@ -150,6 +150,36 @@ normals.push_back(normalDist(gen));
 		return model;
 	}
 
+
+	Mesh TerrainGenerator::generateMesh(const std::vector<float> &heightMap, int width, int height) {
+		std::vector<Vertex> vertices;
+		std::vector<uint32_t> indices;
+
+		for (int y = 0; y < height; ++y) {
+			for (int x = 0; x < width; ++x) {
+				vertices.push_back(Vertex{glm::vec3{x,heightMap[y * width + x], y}, glm::vec3{0,1,0}, glm::vec4{1,1,1,1}, glm::vec2{float(x)/float(width), float(y)/float(height)}});
+			}
+		}
+
+		for (int y = 0; y < height - 1; ++y) {
+			for (int x = 0; x < width - 1; ++x) {
+				int topLeft = y * width + x;
+				int topRight = topLeft + 1;
+				int bottomLeft = topLeft + width;
+				int bottomRight = bottomLeft + 1;
+
+				indices.push_back(topLeft);
+				indices.push_back(bottomLeft);
+				indices.push_back(topRight);
+
+				indices.push_back(topRight);
+				indices.push_back(bottomLeft);
+				indices.push_back(bottomRight);
+			}
+		}
+		return {vertices, indices};
+	}
+
 	bool makeWritable(const std::string& filename) {
 		// Change file permissions to read-write for owner, group, and others
 		if (chmod(filename.c_str(), S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH) == -1) {

@@ -1,10 +1,10 @@
-#ifndef TERRAIN_GENERATOR_H
-#define TERRAIN_GENERATOR_H
+#pragma once
 
 #include <tiny_gltf.h>
 #include <vector>
 #include <string>
 #include <random>
+#include "Render/Mesh.hpp"
 namespace Ygg {
 
 	class TerrainGenerator {
@@ -18,6 +18,8 @@ namespace Ygg {
 		// Génère un modèle GLTF à partir de la carte de hauteur
 		tinygltf::Model generateGLTFModel(const std::vector<float>& heightMap, int width, int height);
 
+		Mesh generateMesh(const std::vector<float>& heightMap, int width, int height);
+
 		// Sauvegarde du modèle GLTF dans un fichier
 		bool saveModel(const std::string& filename, const tinygltf::Model& model);
 
@@ -26,5 +28,3 @@ namespace Ygg {
 	};
 
 } // namespace Ygg
-
-#endif // TERRAIN_GENERATOR_H
