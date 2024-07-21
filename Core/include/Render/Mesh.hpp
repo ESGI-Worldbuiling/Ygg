@@ -43,6 +43,9 @@ namespace Ygg {
 		uint64_t GetVerticesCount() const {return m_vertices.size();}
 		const uint32_t* GetIndices() const {return m_indices.data();}
 		uint64_t GetIndicesCount() {return m_indices.size();}
+		const std::vector<Vertex>&  GetRawVertices() const {return m_vertices;};
+		const std::vector<uint32_t>&  GetRawIndices() const {return m_indices;};
+
 	private:
 		uint64_t AddVertex(const Vertex& vertex);
 	private:

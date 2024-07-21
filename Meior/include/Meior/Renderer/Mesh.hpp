@@ -26,17 +26,17 @@ namespace Ygg::Meior {
 	class Mesh {
 	public:
 		[[nodiscard]] static Ref<Mesh> Create(const std::vector<Vertex>& vertex);
-		[[nodiscard]] static Ref<Mesh> Create(const std::vector<Vertex>& vertex, std::vector<uint32_t>& indices);
+		[[nodiscard]] static Ref<Mesh> Create(const std::vector<Vertex>& vertex, const std::vector<uint32_t>& indices);
 	public:
 		Mesh(const std::vector<Vertex>& vertex);
-		Mesh(const std::vector<Vertex>& vertex, std::vector<uint32_t>& indices);
+		Mesh(const std::vector<Vertex>& vertex, const std::vector<uint32_t>& indices);
 		~Mesh();
 		Mesh(const Mesh&) = delete;
 		Mesh& operator=(const Mesh&) = delete;
 	public:
 		[[nodiscard]] Ref<VertexArray> GetVertexArray() const;
 	private:
-		void CreateMesh(const std::vector<Vertex>& vertex, std::vector<uint32_t>& indices);
+		void CreateMesh(const std::vector<Vertex>& vertex, const std::vector<uint32_t>& indices);
 	private:
 		Ref<VertexArray> m_VertexArray = nullptr;
 	};

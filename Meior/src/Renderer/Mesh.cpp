@@ -11,7 +11,7 @@ namespace Ygg::Meior {
       return CreateRef<Mesh>(vertex);
    }
 
-   Ref<Mesh> Mesh::Create(const std::vector<Vertex> &vertex, std::vector<uint32_t> &indices) {
+   Ref<Mesh> Mesh::Create(const std::vector<Vertex> &vertex, const std::vector<uint32_t> &indices) {
       return CreateRef<Mesh>(vertex, indices);
    }
 
@@ -22,7 +22,7 @@ namespace Ygg::Meior {
       CreateMesh(vertex, indices);
    }
 
-   Mesh::Mesh(const std::vector<Vertex> &vertex, std::vector<uint32_t> &indices) {
+   Mesh::Mesh(const std::vector<Vertex> &vertex, const std::vector<uint32_t> &indices) {
       CreateMesh(vertex, indices);
    }
 
@@ -31,12 +31,12 @@ namespace Ygg::Meior {
       return m_VertexArray;
    }
 
-   void Mesh::CreateMesh(const std::vector<Vertex> &vertex, std::vector<uint32_t> &indices)
+   void Mesh::CreateMesh(const std::vector<Vertex> &vertex, const std::vector<uint32_t> &indices)
    {
       YGG_PROFILE_FUNCTION();
       m_VertexArray = CreateRef<VertexArray>();
 
-      Ref<IndexBuffer> indexBuffer = CreateRef<IndexBuffer>(Buffer{indices.data(), indices.size()});
+      Ref<IndexBuffer> indexBuffer = CreateRef<IndexBuffer>(Buffer{const_cast<uint32_t*>(indices.data()), indices.size()});
       m_VertexArray->SetIndexBuffer(indexBuffer);
 
       Ref<VertexBuffer> vertexBuffer = CreateRef<VertexBuffer>(Buffer{const_cast<Vertex*>(vertex.data()), vertex.size()});

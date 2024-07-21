@@ -45,4 +45,5 @@ add_executable(Meior ${MEIOR_SRC})
 target_include_directories(Meior PUBLIC include)
 target_include_directories(Meior PRIVATE src)
 
-target_link_libraries(Meior PUBLIC Core imgui glad glfw)
+target_link_libraries(Meior PUBLIC Ygg imgui glad glfw)
+target_compile_definitions(Meior PUBLIC YGG_LOG)

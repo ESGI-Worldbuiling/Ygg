@@ -9,22 +9,19 @@ namespace Ygg {
 
 	class TerrainGenerator {
 	public:
-		// Constructeur par défaut
-		TerrainGenerator();
-
 		// Génère une carte de hauteur aléatoire pour le terrain
-		std::vector<float> generateHeightMap(int width, int height);
+		static std::vector<float> generateHeightMap(int width, int height);
 
 		// Génère un modèle GLTF à partir de la carte de hauteur
-		tinygltf::Model generateGLTFModel(const std::vector<float>& heightMap, int width, int height);
+		static tinygltf::Model generateGLTFModel(const std::vector<float>& heightMap, int width, int height);
 
-		Mesh generateMesh(const std::vector<float>& heightMap, int width, int height);
+		static Mesh generateMesh(const std::vector<float>& heightMap, int width, int height);
 
 		// Sauvegarde du modèle GLTF dans un fichier
-		bool saveModel(const std::string& filename, const tinygltf::Model& model);
+		static bool saveModel(const std::string& filename, const tinygltf::Model& model);
 
 		// Méthode principale pour générer le terrain et sauvegarder le modèle
-		std::vector<float> generate(const std::string& filename);
+		static std::vector<float> generate(const std::string& filename);
 	};
 
 } // namespace Ygg

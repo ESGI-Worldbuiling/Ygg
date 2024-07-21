@@ -1,11 +1,8 @@
-#include "../include/TerrainGenerator.hpp"
+#include "TerrainGenerator.hpp"
 #include <tiny_gltf.h>
 #include <iostream>
-#include <fstream>
-#include <sys/stat.h>
+#include <filesystem>
 namespace Ygg {
-
-	TerrainGenerator::TerrainGenerator() = default;
 
 	std::vector<float> TerrainGenerator::generateHeightMap(int width, int height) {
 		std::vector<float> heightMap(width * height);
@@ -181,11 +178,7 @@ normals.push_back(normalDist(gen));
 	}
 
 	bool makeWritable(const std::string& filename) {
-		// Change file permissions to read-write for owner, group, and others
-		if (chmod(filename.c_str(), S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH) == -1) {
-			std::cerr << "Failed to change file permissions for: " << filename << std::endl;
-			return false;
-		}
+		// std::filesystem::permissions(filename, std::filesystem::perms::group_write | std::filesystem::perms::others_write | std::filesystem::perms::owner_write | std::filesystem::perms::group_read | std::filesystem::perms::others_read | std::filesystem::perms::owner_read);
 		return true;
 	}
 
@@ -199,7 +192,13 @@ normals.push_back(normalDist(gen));
 		}
 
 
-		bool result = gltf.WriteGltfSceneToFile(&model, filename, true, true, true, true);
+		bool result{false};
+
+		if(filename.ends_with("gltf"))
+			result = gltf.WriteGltfSceneToFile(&model, filename, true, true, true, false);
+		else if (filename.ends_with("glb"))
+			result = gltf.WriteGltfSceneToFile(&model, filename, true, true, false, true);
+
 		if (!result) {
 			std::cerr << "Failed to save GLTF model to file: " << filename << std::endl;
 			return false;

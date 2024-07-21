@@ -23,13 +23,16 @@ namespace Ygg {
 	class Camera : public IProjection, public IView {
 	public:
 		Camera() = default;
-		Camera(uint32_t width, uint32_t height, float radianFov = glm::radians(60.0f), float nearClip = 0.001f, float farClip = 1000.0f);
-		Camera(float aspectRatio, float radianFov = glm::radians(60.0f), float nearClip = 0.001f, float farClip = 1000.0f);
+		explicit Camera(uint32_t width, uint32_t height, float radianFov = glm::radians(60.0f), float nearClip = 0.001f, float farClip = 1000.0f);
+		explicit Camera(float aspectRatio, float radianFov = glm::radians(60.0f), float nearClip = 0.001f, float farClip = 1000.0f);
 		~Camera() = default;
 
 	public:
 		[[nodiscard]] virtual glm::mat4 GetProjectionMatrix() const override;
 		[[nodiscard]] virtual glm::mat4 GetViewMatrix() const override;
+
+		[[nodiscard]] glm::vec3 GetUp() const {return Rotation * glm::vec3{0,1,0};}
+		[[nodiscard]] glm::vec3 GetForward() const {return Rotation * glm::vec3{0,0,1};}
 	public:
 		glm::vec3 Position{};
 		glm::quat Rotation{};
