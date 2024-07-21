@@ -1,8 +1,8 @@
 #include "YggCpp/LSys.hpp"
-#include "glm/gtx/transform.hpp"
+//#include "glm/gtx/transform.hpp"
 
 namespace Ygg {
-    std::string LSys::generateExpression(Ygg::LSysData props) {
+    /*std::string LSys::generateExpression(Ygg::LSysData props) {
         std::unordered_map<std::string, std::string> rulesMap;
         for (const auto& rule : props.rules) {
             rulesMap.insert({rule.substr(0, 1), rule.substr(2)});
@@ -67,5 +67,5 @@ namespace Ygg {
             }
         }
         return positions;
-    }
+    }*/
 }

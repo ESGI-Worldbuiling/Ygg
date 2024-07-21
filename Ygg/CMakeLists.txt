@@ -6,6 +6,8 @@ set(YGG_TARGET_SOURCES
         src/TerrainGenerator.cpp
         src/Tree.cpp
         src/LSys.cpp
+		src/TerrainGenerator.cpp
+		include/TerrainGenerator.hpp
 )
 
 configure_file(${CMAKE_SOURCE_DIR}/cmake/pch.h.in ${PROJECT_BINARY_DIR}/ygg_pch.h @ONLY)
