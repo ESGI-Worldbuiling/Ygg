@@ -32,4 +32,13 @@ using Vec2 = glm::vec2;
 namespace Ygg::Math {
 	Mat4 TRS(const Vec3& position, const glm::quat& rotation, const Vec3& scale = Vec3(1.0));
 	void TRS(Mat4& trs, const Vec3& position, const glm::quat& rotation, const Vec3& scale = Vec3(1.0));
+
+	template<glm::length_t N, typename T, glm::qualifier Q = glm::defaultp>
+	glm::vec<N,T,Q> Lerp(const glm::vec<N,T,Q>& a, const glm::vec<N,T,Q>& b, float t) {
+		glm::vec<N,T,Q> res;
+		for (int i = 0; i < N; ++i) {
+			res[i] = std::lerp(a[i], b[i], t);
+		}
+		return res;
+	}
 }

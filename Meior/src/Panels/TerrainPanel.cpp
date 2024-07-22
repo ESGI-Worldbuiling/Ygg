@@ -65,7 +65,7 @@ namespace Ygg::Meior {
 
 		ImGui::BeginDisabled(m_HeightMap.empty());
 		if(ImGui::Button("Save")) {
-			auto gltf = TerrainGenerator::generateGLTFModel(m_HeightMap, m_TerrainSizeX, m_TerrainSizeY, m_MapScale);
+			auto gltf = TerrainGenerator::generateGLTFModel(m_HeightMap, m_TerrainSizeX, m_TerrainSizeY, m_MapScale, m_MinColor, m_MaxColor);
 			auto path = m_Path + (m_UseGlb ? ".glb" : ".gltf");
 			TerrainGenerator::saveModel(path, gltf);
 			YGG_INFO("Model {} save.", path);
@@ -83,7 +83,7 @@ namespace Ygg::Meior {
 
 	void TerrainPanel::GenerateTerrain() {
 		m_HeightMap = TerrainGenerator::generateHeightMap(m_TerrainSizeX, m_TerrainSizeY, m_HeightMax, m_PerlinScale, m_Lacunarity, m_Persistance, m_LayerCount);
-		auto mesh = TerrainGenerator::generateMesh(m_HeightMap, m_TerrainSizeX, m_TerrainSizeY, m_MapScale);
+		auto mesh = TerrainGenerator::generateMesh(m_HeightMap, m_TerrainSizeX, m_TerrainSizeY, m_MapScale, m_MinColor, m_MaxColor);
 		m_Mesh = Ygg::Meior::Mesh::Create(mesh.GetRawVertices(), mesh.GetRawIndices());
 		m_ModelMatrix[3] = {-float(m_TerrainSizeX)/2,0,-float(m_TerrainSizeY)/2,1};
 		m_ModelMatrix[3][0] *= m_MapScale;

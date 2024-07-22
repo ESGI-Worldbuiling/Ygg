@@ -3,6 +3,7 @@
 #include <iostream>
 #include <filesystem>
 #include <vendor/PerlinNoise.hpp>
+#include "Core/Math.hpp"
 #include "Random/PerlinNoise.hpp"
 namespace Ygg {
 
@@ -29,7 +30,7 @@ namespace Ygg {
 		return heightMap.Heights;
 	}
 
-	tinygltf::Model TerrainGenerator::generateGLTFModel(const std::vector<float>& heightMap, int width, int height, float scale) {
+	tinygltf::Model TerrainGenerator::generateGLTFModel(const std::vector<float>& heightMap, int width, int height, float scale, glm::vec4 colorMin, glm::vec4 colorMax) {
 		tinygltf::Model model;
 		tinygltf::Scene scene;
 		scene.name = "TerrainScene";
@@ -45,6 +46,10 @@ namespace Ygg {
 		std::vector<float> vertices;
 		std::vector<uint16_t> indices;
 		std::vector<float> normals;
+		std::vector<float> colors;
+
+		float yMin = *std::min_element(heightMap.begin(), heightMap.end());
+		float yMax = *std::max_element(heightMap.begin(), heightMap.end());
 
 		/*std::random_device rd;
 std::mt19937 gen(rd());
@@ -67,19 +72,30 @@ normals.push_back(normalDist(gen));
 normals.push_back(normalDist(gen));
 }
 }*/
+		vertices.reserve(height * width * 3);
+		normals.reserve(height * width * 3);
+		colors.reserve(height * width * 4);
 		for (int y = 0; y < height; ++y) {
 			for (int x = 0; x < width; ++x) {
 
+				float h = heightMap[y * width + x];
 				vertices.push_back(static_cast<float>(x) * scale);
-				vertices.push_back(heightMap[y * width + x]);
+				vertices.push_back(h);
 				vertices.push_back(static_cast<float>(y) * scale);
 
 				normals.push_back(0.0f);
 				normals.push_back(1.0f);
 				normals.push_back(0.0f);
+
+				float t = (h - yMin) / (yMax - yMin);
+				auto color = Math::Lerp(colorMin, colorMax, t);
+				colors.push_back(color.r);
+				colors.push_back(color.g);
+				colors.push_back(color.b);
+				colors.push_back(color.a);
 			}
 		}
-
+		indices.reserve(height * width * 6);
 		for (int y = 0; y < height - 1; ++y) {
 			for (int x = 0; x < width - 1; ++x) {
 				int topLeft = y * width + x;
@@ -97,17 +113,17 @@ normals.push_back(normalDist(gen));
 			}
 		}
 
-		tinygltf::Accessor posAccessor, normAccessor, indexAccessor;
+		tinygltf::Accessor posAccessor, normAccessor,  colorAccessor, indexAccessor;
 		tinygltf::Buffer buffer;
-		tinygltf::BufferView posView, normView, indexView;
+		tinygltf::BufferView posView, normView,  colorView, indexView;
 
 		posAccessor.bufferView = 0;
 		posAccessor.byteOffset = 0;
 		posAccessor.componentType = TINYGLTF_COMPONENT_TYPE_FLOAT;
 		posAccessor.count = vertices.size() / 3;
 		posAccessor.type = TINYGLTF_TYPE_VEC3;
-		posAccessor.maxValues = {8.0f, 10.0f, 16.0f};
-		posAccessor.minValues = {-1.0f, -1.0f, -1.0f};
+		posAccessor.maxValues = {float(width - 1) * scale, yMax, float(height - 1) * scale};
+		posAccessor.minValues = {0.0f, yMin, 0.0f};
 
 		normAccessor.bufferView = 1;
 		normAccessor.byteOffset = 0;
@@ -115,7 +131,13 @@ normals.push_back(normalDist(gen));
 		normAccessor.count = normals.size() / 3;
 		normAccessor.type = TINYGLTF_TYPE_VEC3;
 
-		indexAccessor.bufferView = 2;
+		colorAccessor.bufferView = 2;
+		colorAccessor.byteOffset = 0;
+		colorAccessor.componentType = TINYGLTF_COMPONENT_TYPE_FLOAT;
+		colorAccessor.count = colors.size() / 4;
+		colorAccessor.type = TINYGLTF_TYPE_VEC4;
+
+		indexAccessor.bufferView = 3;
 		indexAccessor.byteOffset = 0;
 		indexAccessor.componentType = TINYGLTF_COMPONENT_TYPE_UNSIGNED_SHORT;
 		indexAccessor.count = indices.size();
@@ -123,6 +145,7 @@ normals.push_back(normalDist(gen));
 
 		buffer.data.insert(buffer.data.end(), reinterpret_cast<const unsigned char*>(vertices.data()), reinterpret_cast<const unsigned char*>(vertices.data()) + vertices.size() * sizeof(float));
 		buffer.data.insert(buffer.data.end(), reinterpret_cast<const unsigned char*>(normals.data()), reinterpret_cast<const unsigned char*>(normals.data()) + normals.size() * sizeof(float));
+		buffer.data.insert(buffer.data.end(), reinterpret_cast<const unsigned char*>(colors.data()), reinterpret_cast<const unsigned char*>(colors.data()) + colors.size() * sizeof(float));
 		buffer.data.insert(buffer.data.end(), reinterpret_cast<const unsigned char*>(indices.data()), reinterpret_cast<const unsigned char*>(indices.data()) + indices.size() * sizeof(uint16_t));
 
 		posView.buffer = 0;
@@ -135,25 +158,33 @@ normals.push_back(normalDist(gen));
 		normView.byteLength = normals.size() * sizeof(float);
 		normView.target = TINYGLTF_TARGET_ARRAY_BUFFER;
 
+		colorView.buffer = 0;
+		colorView.byteOffset = normView.byteOffset + normView.byteLength;
+		colorView.byteLength = colors.size() * sizeof(float);
+		colorView.target = TINYGLTF_TARGET_ARRAY_BUFFER;
+
 		indexView.buffer = 0;
-		indexView.byteOffset = normView.byteOffset + normView.byteLength;
+		indexView.byteOffset = colorView.byteOffset + colorView.byteLength;
 		indexView.byteLength = indices.size() * sizeof(uint16_t);
 		indexView.target = TINYGLTF_TARGET_ELEMENT_ARRAY_BUFFER;
 
 		model.accessors.push_back(posAccessor);
 		model.accessors.push_back(normAccessor);
+		model.accessors.push_back(colorAccessor);
 		model.accessors.push_back(indexAccessor);
 
 		model.bufferViews.push_back(posView);
 		model.bufferViews.push_back(normView);
+		model.bufferViews.push_back(colorView);
 		model.bufferViews.push_back(indexView);
 
 		model.buffers.push_back(buffer);
 
 		tinygltf::Primitive primitive;
-		primitive.indices = 2;
 		primitive.attributes["POSITION"] = 0;
 		primitive.attributes["NORMAL"] = 1;
+		primitive.attributes["COLOR_0"] = 2;
+		primitive.indices = 3;
 		primitive.mode = TINYGLTF_MODE_TRIANGLES;
 
 		mesh.primitives.push_back(primitive);
@@ -163,13 +194,17 @@ normals.push_back(normalDist(gen));
 	}
 
 
-	Mesh TerrainGenerator::generateMesh(const std::vector<float> &heightMap, int width, int height, float scale) {
+	Mesh TerrainGenerator::generateMesh(const std::vector<float> &heightMap, int width, int height, float scale, glm::vec4 colorMin, glm::vec4 colorMax) {
 		std::vector<Vertex> vertices;
 		std::vector<uint32_t> indices;
 
+		float yMin = *std::min_element(heightMap.begin(), heightMap.end());
+		float yMax = *std::max_element(heightMap.begin(), heightMap.end());
 		for (uint64_t y = 0; y < height; ++y) {
 			for (uint64_t x = 0; x < width; ++x) {
-				vertices.push_back(Vertex{glm::vec3{float(x)*scale,heightMap[y * width + x], float(y)*scale}, glm::vec3{0,1,0}, glm::vec4{1,1,1,1}, glm::vec2{float(x)/float(width), float(y)/float(height)}});
+				float h = heightMap[y * width + x];
+				float t = (h - yMin) / (yMax - yMin);
+				vertices.push_back(Vertex{glm::vec3{float(x)*scale,h, float(y)*scale}, glm::vec3{0,1,0}, Math::Lerp(colorMin, colorMax, t), glm::vec2{float(x)/float(width), float(y)/float(height)}});
 			}
 		}
 

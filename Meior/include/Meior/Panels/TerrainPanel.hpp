@@ -33,7 +33,7 @@ namespace Ygg::Meior {
 		float m_Persistance = 0.5f;
 		float m_PerlinScale = 20.0f;
 		float m_MapScale = 0.1f;
-		float m_HeightMax = 10.0f;
+		float m_HeightMax = 2.0f;
 
 		bool m_UseGlb = false;
 		std::string m_Path = "./terrain";
