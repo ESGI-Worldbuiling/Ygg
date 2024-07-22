@@ -45,8 +45,8 @@ namespace Ygg::Meior {
 		changed |=  generateParamChanged |= ImGui::DragScalar("Size Y", ImGuiDataType_U32, &m_TerrainSizeY);
 		changed |=  generateParamChanged |= ImGui::DragFloat("Height", &m_HeightMax, 0.1, 0.001, FLT_MAX);
 		changed |=  generateParamChanged |= ImGui::DragScalar("Layer Count", ImGuiDataType_U32, &m_LayerCount);
-		changed |=  generateParamChanged |= ImGui::DragFloat("Perlin Scale", &m_PerlinScale, 0.25, 0.001, FLT_MAX);
-		changed |=  generateParamChanged |= ImGui::DragFloat("Map Scale", &m_MapScale, 0.1, 0.001, FLT_MAX);
+		changed |=  generateParamChanged |= ImGui::DragFloat("Perlin Scale", &m_PerlinScale, 0.1, 0.1, FLT_MAX);
+		changed |=  generateParamChanged |= ImGui::SliderFloat("Map Scale", &m_MapScale, 0.001, 1.0);
 		changed |=  generateParamChanged |= ImGui::SliderFloat("Lacunarity", &m_Lacunarity, 0.001, 10);
 		changed |=  generateParamChanged |= ImGui::SliderFloat("Persistance", &m_Persistance, 0.001, 1.000);
 		changed |= ImGui::Checkbox("Use GLB", &m_UseGlb);
