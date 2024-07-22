@@ -32,6 +32,7 @@ namespace Ygg::Meior {
 	void TerrainPanel::Initialize() {
 		m_Shader = Shader::Create(Shaders::c_DefaultVert, Shaders::c_DefaultFrag);
 
+		TerrainGenerator::RegenerateSeed();
 		GenerateTerrain();
 		Render();
 	}
@@ -59,6 +60,12 @@ namespace Ygg::Meior {
 		//TODO: Draw a viewport of the currently generated terrain in flat color.
 
 		if(generateParamChanged || colorChanged) {
+			GenerateTerrain();
+			Render();
+		}
+
+		if(ImGui::Button("Regenerate")) {
+			TerrainGenerator::RegenerateSeed();
 			GenerateTerrain();
 			Render();
 		}

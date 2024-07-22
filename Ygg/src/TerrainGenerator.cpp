@@ -8,7 +8,7 @@
 namespace Ygg {
 
 	std::vector<float> TerrainGenerator::generateHeightMap(int sizeX, int sizeY, float height, float scale, float lacunarity, float persistance, uint32_t layerCount) {
-		siv::BasicPerlinNoise<float> pn {};
+		siv::BasicPerlinNoise<float> pn {s_Seed};
 		Perlin::HeightMap heightMap(sizeX, sizeY);
 		if(scale <= 0) scale = 0.0001f;
 		for (uint64_t y = 0; y < sizeY; ++y) {
@@ -193,7 +193,6 @@ normals.push_back(normalDist(gen));
 		return model;
 	}
 
-
 	Mesh TerrainGenerator::generateMesh(const std::vector<float> &heightMap, int width, int height, float scale, glm::vec4 colorMin, glm::vec4 colorMax) {
 		std::vector<Vertex> vertices;
 		std::vector<uint32_t> indices;
@@ -259,9 +258,6 @@ normals.push_back(normalDist(gen));
 		return true;
 	}
 
-
-
-
 	std::vector<float> TerrainGenerator::generate(const std::string& filename) {
 		int width = 100;
 		int height = 100;
@@ -269,6 +265,15 @@ normals.push_back(normalDist(gen));
 		auto model = generateGLTFModel(heightMap, width, height);
 		saveModel(filename, model);
 		return heightMap;
+	}
+
+	void TerrainGenerator::RegenerateSeed() {
+		union {
+			int is{0};
+			unsigned int uis;
+		};
+		is = rand();
+		s_Seed = uis;
 	}
 
 } // namespace Ygg
