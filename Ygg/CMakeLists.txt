@@ -8,6 +8,8 @@ set(YGG_TARGET_SOURCES
         src/LSys.cpp
 		src/TerrainGenerator.cpp
 		include/TerrainGenerator.hpp
+		include/vendor/PerlinNoise.hpp
+		include/Random/PerlinNoise.hpp
 )
 
 configure_file(${CMAKE_SOURCE_DIR}/cmake/pch.h.in ${PROJECT_BINARY_DIR}/ygg_pch.h @ONLY)

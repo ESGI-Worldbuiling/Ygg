@@ -30,103 +30,42 @@ namespace Ygg::Meior {
 
 	TerrainPanel::~TerrainPanel() = default;
 	void TerrainPanel::Initialize() {
-
-		std::vector<Vertex> cube {
-				//Front Face
-				Vertex(glm::vec3({-0.5f, -0.5f, +0.5f}), glm::vec3({0,0,+1}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({0,0})), // 0
-				Vertex(glm::vec3({+0.5f, -0.5f, +0.5f}), glm::vec3({0,0,+1}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({0,1})), // 1
-				Vertex(glm::vec3({+0.5f, +0.5f, +0.5f}), glm::vec3({0,0,+1}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({1,1})), // 2
-				Vertex(glm::vec3({-0.5f, +0.5f, +0.5f}), glm::vec3({0,0,+1}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({1,0})), // 3
-				//Front Face
-				Vertex(glm::vec3({-0.5f, -0.5f, -0.5f}), glm::vec3({0,0,-1}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({0,0})), // 4
-				Vertex(glm::vec3({+0.5f, -0.5f, -0.5f}), glm::vec3({0,0,-1}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({0,1})), // 5
-				Vertex(glm::vec3({+0.5f, +0.5f, -0.5f}), glm::vec3({0,0,-1}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({1,1})), // 6
-				Vertex(glm::vec3({-0.5f, +0.5f, -0.5f}), glm::vec3({0,0,-1}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({1,0})), // 7
-				//Up Face
-				Vertex(glm::vec3({-0.5f, +0.5f, -0.5f}), glm::vec3({0,+1, 0}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({0,0})), // 8
-				Vertex(glm::vec3({+0.5f, +0.5f, -0.5f}), glm::vec3({0,+1, 0}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({0,1})), // 9
-				Vertex(glm::vec3({+0.5f, +0.5f, +0.5f}), glm::vec3({0,+1, 0}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({1,1})), // 10
-				Vertex(glm::vec3({-0.5f, +0.5f, +0.5f}), glm::vec3({0,+1, 0}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({1,0})), // 11
-				//Down Face
-				Vertex(glm::vec3({-0.5f, -0.5f, -0.5f}), glm::vec3({0,-1, 0}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({0,0})), // 12
-				Vertex(glm::vec3({+0.5f, -0.5f, -0.5f}), glm::vec3({0,-1, 0}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({0,1})), // 13
-				Vertex(glm::vec3({+0.5f, -0.5f, +0.5f}), glm::vec3({0,-1, 0}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({1,1})), // 14
-				Vertex(glm::vec3({-0.5f, -0.5f, +0.5f}), glm::vec3({0,-1, 0}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({1,0})), // 15
-				//Right Face
-				Vertex(glm::vec3({+0.5f, -0.5f, -0.5f}), glm::vec3({+1, 0, 0}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({0,0})), // 16
-				Vertex(glm::vec3({+0.5f, +0.5f, -0.5f}), glm::vec3({+1, 0, 0}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({0,1})), // 17
-				Vertex(glm::vec3({+0.5f, +0.5f, +0.5f}), glm::vec3({+1, 0, 0}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({1,1})), // 18
-				Vertex(glm::vec3({+0.5f, -0.5f, +0.5f}), glm::vec3({+1, 0, 0}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({1,0})), // 19
-				//Left Face
-				Vertex(glm::vec3({-0.5f, -0.5f, -0.5f}), glm::vec3({-1, 0, 0}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({0,0})), // 20
-				Vertex(glm::vec3({-0.5f, +0.5f, -0.5f}), glm::vec3({-1, 0, 0}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({0,1})), // 21
-				Vertex(glm::vec3({-0.5f, +0.5f, +0.5f}), glm::vec3({-1, 0, 0}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({1,1})), // 22
-				Vertex(glm::vec3({-0.5f, -0.5f, +0.5f}), glm::vec3({-1, 0, 0}), glm::vec4({0.8, 0.2, 0.3, 1.0}), glm::vec2({1,0})), // 23
-		};
-
-		std::vector<uint32_t> vertices {
-				// Front
-				0,2,1,
-				0,3,2,
-				// Back
-				4,5,6,
-				4,6,7,
-				// Up
-				8,9,10,
-				8,10,11,
-				// Down
-				12,14,13,
-				12,15,14,
-				// Front
-				16,18,17,
-				16,19,18,
-				// Back
-				20,21,22,
-				20,22,23,
-		};
-
-		//      std::vector<Vertex> cube {
-		//            Vertex(glm::vec3({-0.5f, -0.5f, 0.0f}), glm::vec3({0,0,1}), glm::vec2({0,0})), // 0
-		//            Vertex(glm::vec3({+0.5f, -0.5f, 0.0f}), glm::vec3({0,0,1}), glm::vec2({1,0})), // 1
-		//            Vertex(glm::vec3({+0.5f, +0.5f, 0.0f}), glm::vec3({0,0,1}), glm::vec2({1,1})), // 2
-		//            Vertex(glm::vec3({-0.5f, +0.5f, 0.0f}), glm::vec3({0,0,1}), glm::vec2({0,1})), // 3
-		//      };
-		//
-		//      std::vector<uint32_t> vertices {
-		//            0,1,2,
-		//            0,2,3
-		//      };
-
-		m_Mesh = Ygg::Meior::Mesh::Create(cube, vertices);
-//		m_Shader = Shader::Create(c_VertexShader, c_FragmentShader);
 		m_Shader = Shader::Create(Shaders::c_DefaultVert, Shaders::c_DefaultFrag);
 
+		GenerateTerrain();
+		Render();
 	}
 	bool TerrainPanel::Update() {
 
-		Render();
-
 		bool changed = false;
+		bool generateParamChanged = false;
 
-		changed |= ImGui::DragScalar("Width", ImGuiDataType_U32, &m_Width);
-		changed |= ImGui::DragScalar("Height", ImGuiDataType_U32, &m_Height);
+		changed |= generateParamChanged |= ImGui::DragScalar("Size X", ImGuiDataType_U32, &m_TerrainSizeX);
+		changed |=  generateParamChanged |= ImGui::DragScalar("Size Y", ImGuiDataType_U32, &m_TerrainSizeY);
+		changed |=  generateParamChanged |= ImGui::DragFloat("Height", &m_HeightMax, 0.1, 0.001, FLT_MAX);
+		changed |=  generateParamChanged |= ImGui::DragScalar("Layer Count", ImGuiDataType_U32, &m_LayerCount);
+		changed |=  generateParamChanged |= ImGui::DragFloat("Perlin Scale", &m_PerlinScale, 0.25, 0.001, FLT_MAX);
+		changed |=  generateParamChanged |= ImGui::DragFloat("Map Scale", &m_MapScale, 0.1, 0.001, FLT_MAX);
+		changed |=  generateParamChanged |= ImGui::SliderFloat("Lacunarity", &m_Lacunarity, 0.001, 10);
+		changed |=  generateParamChanged |= ImGui::SliderFloat("Persistance", &m_Persistance, 0.001, 1.000);
 		changed |= ImGui::Checkbox("Use GLB", &m_UseGlb);
 		changed |= ImGuiLib::InputText("Path", &m_Path);
+		ImGui::Separator();
+		bool colorChanged = false;
+		changed |= colorChanged |= ImGui::ColorEdit4("Min Color", glm::value_ptr(m_MinColor));
+		changed |= colorChanged |= ImGui::ColorEdit4("Max Color", glm::value_ptr(m_MaxColor));
+		ImGui::Separator();
 
 		//TODO: Draw a viewport of the currently generated terrain in flat color.
 
-		if(ImGui::Button("Generate")) {
-			std::string extension = m_UseGlb ? "glb" : "gltf";
-			m_HeightMap = TerrainGenerator::generateHeightMap(m_Width, m_Height);
-			auto mesh = TerrainGenerator::generateMesh(m_HeightMap, m_Width, m_Height);
-			m_Mesh = Ygg::Meior::Mesh::Create(mesh.GetRawVertices(), mesh.GetRawIndices());
-			m_ModelMatrix[3] = {-float(m_Width)/2,0,-float(m_Height)/2,1};
-			YGG_INFO("Should generate a terrain ({}x{}) at path {}.{}.", m_Width, m_Height, m_Path, extension);
+		if(generateParamChanged || colorChanged) {
+			GenerateTerrain();
+			Render();
 		}
 
 		ImGui::BeginDisabled(m_HeightMap.empty());
 		if(ImGui::Button("Save")) {
-			auto gltf = TerrainGenerator::generateGLTFModel(m_HeightMap, m_Width, m_Height);
+			auto gltf = TerrainGenerator::generateGLTFModel(m_HeightMap, m_TerrainSizeX, m_TerrainSizeY, m_MapScale);
 			auto path = m_Path + (m_UseGlb ? ".glb" : ".gltf");
 			TerrainGenerator::saveModel(path, gltf);
 			YGG_INFO("Model {} save.", path);
@@ -142,12 +81,21 @@ namespace Ygg::Meior {
 		return changed;
 	}
 
-	void TerrainPanel::Render()
-	{
-		if(!m_Mesh || !m_Framebuffer || !m_Shader) return;
+	void TerrainPanel::GenerateTerrain() {
+		m_HeightMap = TerrainGenerator::generateHeightMap(m_TerrainSizeX, m_TerrainSizeY, m_HeightMax, m_PerlinScale, m_Lacunarity, m_Persistance, m_LayerCount);
+		auto mesh = TerrainGenerator::generateMesh(m_HeightMap, m_TerrainSizeX, m_TerrainSizeY, m_MapScale);
+		m_Mesh = Ygg::Meior::Mesh::Create(mesh.GetRawVertices(), mesh.GetRawIndices());
+		m_ModelMatrix[3] = {-float(m_TerrainSizeX)/2,0,-float(m_TerrainSizeY)/2,1};
+		m_ModelMatrix[3][0] *= m_MapScale;
+		m_ModelMatrix[3][2] *= m_MapScale;
+	}
+
+
+	void TerrainPanel::Render() {
+		if (!m_Mesh || !m_Framebuffer || !m_Shader) return;
 
 		m_Framebuffer->Bind();
-		glClearColor(0.2, 0.3, 0.8, 1);
+		glClearColor(0.14, 0.14, 0.14, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		auto vao = m_Mesh->GetVertexArray();
 
@@ -158,6 +106,12 @@ namespace Ygg::Meior {
 		m_Shader->SetUniformVec3("u_CamFwd", m_Camera.GetForward());
 		m_Shader->SetUniformVec3("u_CamUp", m_Camera.GetUp());
 
+		m_Shader->SetUniformVec4("u_ColorMin", m_MinColor);
+		m_Shader->SetUniformVec4("u_ColorMax", m_MaxColor);
+		if (!m_HeightMap.empty()) {
+			m_Shader->SetUniformFloat("u_HeightMin", *std::min_element(m_HeightMap.begin(), m_HeightMap.end()));
+			m_Shader->SetUniformFloat("u_HeightMax", *std::max_element(m_HeightMap.begin(), m_HeightMap.end()));
+		}
 		if(m_Texture) {
 			m_Texture->Bind();
 			m_Shader->SetUniformTexture("u_Texture", 0);
@@ -175,6 +129,5 @@ namespace Ygg::Meior {
 		m_Shader->Unbind();
 		m_Framebuffer->Unbind();
 	}
-
 
 } // namespace Ygg::Meior

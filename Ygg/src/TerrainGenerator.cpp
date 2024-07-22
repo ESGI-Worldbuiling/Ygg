@@ -2,19 +2,34 @@
 #include <tiny_gltf.h>
 #include <iostream>
 #include <filesystem>
+#include <vendor/PerlinNoise.hpp>
+#include "Random/PerlinNoise.hpp"
 namespace Ygg {
 
-	std::vector<float> TerrainGenerator::generateHeightMap(int width, int height) {
-		std::vector<float> heightMap(width * height);
-		for (int y = 0; y < height; ++y) {
-			for (int x = 0; x < width; ++x) {
-				heightMap[y * width + x] = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+	std::vector<float> TerrainGenerator::generateHeightMap(int sizeX, int sizeY, float height, float scale, float lacunarity, float persistance, uint32_t layerCount) {
+		siv::BasicPerlinNoise<float> pn {};
+		Perlin::HeightMap heightMap(sizeX, sizeY);
+		if(scale <= 0) scale = 0.0001f;
+		for (uint64_t y = 0; y < sizeY; ++y) {
+			for (uint64_t x = 0; x < sizeX; ++x) {
+				float& h = heightMap(x,y);
+				for (int layer = 0; layer < layerCount; ++layer) {
+					float realX = float(x) / scale;
+					float realY = float(y) / scale;
+					float freq = std::pow(lacunarity, layer);
+					float ampl = std::pow(persistance, layer);
+					realX *= freq;
+					realY *= freq;
+					h += pn.noise2D(realX,realY) * ampl;
+//					h += pn.noise2D(realX,realY);
+				}
+				h *= height;
 			}
 		}
-		return heightMap;
+		return heightMap.Heights;
 	}
 
-	tinygltf::Model TerrainGenerator::generateGLTFModel(const std::vector<float>& heightMap, int width, int height) {
+	tinygltf::Model TerrainGenerator::generateGLTFModel(const std::vector<float>& heightMap, int width, int height, float scale) {
 		tinygltf::Model model;
 		tinygltf::Scene scene;
 		scene.name = "TerrainScene";
@@ -55,9 +70,9 @@ normals.push_back(normalDist(gen));
 		for (int y = 0; y < height; ++y) {
 			for (int x = 0; x < width; ++x) {
 
-				vertices.push_back(static_cast<float>(x));
+				vertices.push_back(static_cast<float>(x) * scale);
 				vertices.push_back(heightMap[y * width + x]);
-				vertices.push_back(static_cast<float>(y));
+				vertices.push_back(static_cast<float>(y) * scale);
 
 				normals.push_back(0.0f);
 				normals.push_back(1.0f);
@@ -148,13 +163,13 @@ normals.push_back(normalDist(gen));
 	}
 
 
-	Mesh TerrainGenerator::generateMesh(const std::vector<float> &heightMap, int width, int height) {
+	Mesh TerrainGenerator::generateMesh(const std::vector<float> &heightMap, int width, int height, float scale) {
 		std::vector<Vertex> vertices;
 		std::vector<uint32_t> indices;
 
-		for (int y = 0; y < height; ++y) {
-			for (int x = 0; x < width; ++x) {
-				vertices.push_back(Vertex{glm::vec3{x,heightMap[y * width + x], y}, glm::vec3{0,1,0}, glm::vec4{1,1,1,1}, glm::vec2{float(x)/float(width), float(y)/float(height)}});
+		for (uint64_t y = 0; y < height; ++y) {
+			for (uint64_t x = 0; x < width; ++x) {
+				vertices.push_back(Vertex{glm::vec3{float(x)*scale,heightMap[y * width + x], float(y)*scale}, glm::vec3{0,1,0}, glm::vec4{1,1,1,1}, glm::vec2{float(x)/float(width), float(y)/float(height)}});
 			}
 		}
 

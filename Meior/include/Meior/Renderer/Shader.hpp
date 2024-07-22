@@ -45,8 +45,9 @@ namespace Ygg::Meior {
    public:
       void SetUniformMat4(const std::string& name, const Mat4& matrix);
       void SetUniformMat3(const std::string& name, const Mat3& matrix);
-      void SetUniformVec4(const std::string& name, const Vec4& matrix);
-      void SetUniformVec3(const std::string& name, const Vec3& matrix);
+      void SetUniformVec4(const std::string& name, const Vec4& vector);
+      void SetUniformVec3(const std::string& name, const Vec3& vector);
+      void SetUniformFloat(const std::string& name, float value);
 	  void SetUniformTexture(const std::string& name, uint32_t slot);
    private:
       bool CompileShaders();

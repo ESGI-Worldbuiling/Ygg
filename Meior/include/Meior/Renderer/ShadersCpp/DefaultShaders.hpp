@@ -53,6 +53,11 @@ void main() {
 
 uniform vec3 u_CamPos = vec3(0);
 
+uniform vec4 u_ColorMin = vec4(0.2,0.3,0.85,1);
+uniform vec4 u_ColorMax = vec4(0.2,0.8,0.3,1);
+uniform float u_HeightMin = 0;
+uniform float u_HeightMax = 1;
+
 uniform sampler2D u_Texture;
 
 in vec3 v_Position;
@@ -87,9 +92,8 @@ vec3 CalculateLighting(vec3 lightColor, vec3 lightDir, float lightIntensity)
 
 void main()
 {
-   o_Color = vec4((v_Normal + 1.0) * 0.5, 1.0);
-   o_Color *= texture2D(u_Texture, v_TexCoord);
-   o_Color *= vec4(CalculateLighting(vec3(0.9, 0.8, 0.85), vec3(0.5, 1, -0.6), 2.0), 1);
+	float t = (v_Position.y - u_HeightMin) / (u_HeightMax - u_HeightMin);
+	o_Color = mix(u_ColorMin,u_ColorMax,t);
 }
 )";
 

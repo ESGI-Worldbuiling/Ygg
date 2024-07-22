@@ -24,12 +24,21 @@ namespace Ygg::Meior {
 		virtual void Initialize() override;
 		virtual bool Update() override;
 	private:
+		void GenerateTerrain();
 		void Render();
 	private:
 		float m_ImageWidth = 512, m_ImageHeight = 512;
-		uint32_t m_Width = 20, m_Height = 20;
+		uint32_t m_TerrainSizeX = 200, m_TerrainSizeY = 200, m_LayerCount = 3;
+		float m_Lacunarity = 2.0f;
+		float m_Persistance = 0.5f;
+		float m_PerlinScale = 20.0f;
+		float m_MapScale = 0.1f;
+		float m_HeightMax = 10.0f;
+
 		bool m_UseGlb = false;
 		std::string m_Path = "./terrain";
+		glm::vec4 m_MinColor{0.117f, 0.148f, 0.397f, 1.000f};
+		glm::vec4 m_MaxColor{0.785f, 0.936f, 0.810f, 1.000f};
 	private:
 		Scene m_Scene;
 		Scope<Framebuffer> m_Framebuffer;
