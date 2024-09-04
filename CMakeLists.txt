@@ -22,5 +22,6 @@ endif()
 
 if (YGG_BUILD_TESTS)
     message("-- Ygg: Building tests")
+	include(CTest)
     add_subdirectory(Test)
 endif ()
